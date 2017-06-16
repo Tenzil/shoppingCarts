@@ -8,14 +8,14 @@ $authenticate	= new Authentication();
 global $cart;
 global $authenticate;
 $userRole       = $authenticate->authenticate($_POST['username']);
-if($userRole==1||$userRole==2){
+if(($userRole==1)||($userRole==2)){
 switch($cartType)
 	{
 		case "addCart":
-			$cart->addCart($_POST['name'],$_POST['description'],$_POST['price'],$_POST['discount'],$_POST['category_id']);
+			$cart->addCart($_POST['name'],$_POST['total'],$_POST['total_discount'],$_POST['total_with_discount'],$_POST['total_tax'],$_POST['total_with_tax'],$_POST['grand_total'],$_POST['product_id'],$_POST['user_id']);
 		break;
 		case "updateCart":
-			$cart->updateCart($_POST['name'],$_POST['description'],$_POST['price'],$_POST['discount'],$_POST['category_id']$_POST['cartUpdateId']);
+			$cart->updateCart($_POST['name'],$_POST['total'],$_POST['total_discount'],$_POST['total_with_discount'],$_POST['total_tax'],$_POST['total_with_tax'],$_POST['grand_total'],$_POST['cartUpdateId']);
 		break;
 		case "deleteCart":
 			$cart->deleteCart($_POST['cartDeleteId']);
@@ -39,7 +39,7 @@ switch($cartType)
 			$cart->getCartTotalTax($_POST['user_id']);
 		break;
         case "addUser":
-			$cart->addUser($_POST['username'],$_POST['first_name'],$_POST['last_name'],$_POST['dob'],$_POST['mobile']);
+			$cart->addUser($_POST['username_add'],$_POST['first_name'],$_POST['last_name'],$_POST['dob'],$_POST['mobile']);
 		break;
 	}
 }else{
