@@ -1,26 +1,27 @@
 <?php
 $incpath = dirname(__FILE__).'/Product/';
 require_once($incpath.'productDetails.php');
-$productType=$_GET['type'];
+require_once('authentication.php');
+$productType=$_POST['type'];
 $product	= new ProductDetails();
 $authenticate	= new Authentication();
 global $product;
 global $authenticate;
-$userRole       = $authenticate->authenticate($_GET['username']);
+$userRole       = $authenticate->authenticate($_POST['username']);
 if($userRole==1){
 switch($productType)
 	{
 		case "addProduct":
-			$product->addProduct($_GET['name'],$_GET['description'],$_GET['price'],$_GET['discount'],$_GET['category_id']);
+			$product->addProduct($_POST['name'],$_POST['description'],$_POST['price'],$_POST['discount'],$_POST['category_id']);
 		break;
 		case "updateProduct":
-			$product->updateProduct($_GET['name'],$_GET['description'],$_GET['price'],$_GET['discount'],$_GET['category_id']$_GET['productUpdateId']);
+			$product->updateProduct($_POST['name'],$_POST['description'],$_POST['price'],$_POST['discount'],$_POST['category_id'],$_POST['productUpdateId']);
 		break;
 		case "deleteProduct":
-			$product->deleteProduct($_GET['productDeleteId']);
+			$product->deleteProduct($_POST['productDeleteId']);
 		break;
-        case "readProducts":
-			$product->readProduct($_GET['productReadId']);
+        case "readProduct":
+			$product->readProduct($_POST['productReadId']);
 		break;
 		case "listProducts":
 			$product->listProducts();

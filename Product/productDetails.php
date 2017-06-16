@@ -10,7 +10,7 @@ class ProductDetails{
 		
 	function addProduct($name,$description,$price,$discount,$categoryId){
 		global $db;
-        $table_name = "categories";	
+        $table_name = "products";	
 		$productField=array(
             "category_id"   => $categoryId,
 			"name"			=> $name,
@@ -19,7 +19,7 @@ class ProductDetails{
             "discount"		=> $discount,
 			"created_date"	=> date('Y-m-d H:i:s')
 		);
-
+			
 		$productId=$db->insert_get_id($productField,$table_name);
 		if($productId!=''){
 			$output['iserr'] 			= 1;
@@ -41,7 +41,8 @@ class ProductDetails{
 			"price"			=> $price,
             "discount"		=> $discount,
 		);
-        $count=$db->update($productField,"id=".$productUpdateId,$table_name);
+		
+        $count = $db->update($productField,"id=".$productUpdateId,$table_name);
 		if($count>0){
 			
 			$output['iserr'] 			= 1;
@@ -57,10 +58,10 @@ class ProductDetails{
 	function deleteProduct($productDeleteId){
 		global $db;
         $table_name = "products";
-        $count      = $db->query("delete * $table_name where id='".$productDeleteId."' ");      
+        $count      = $db->query("delete from $table_name where id='".$productDeleteId."' ");      
 		if($count>0){
 			$output['iserr'] 			= 1;
-			$output['message'] 			= 'Successfully Product Update';
+			$output['message'] 			= 'Successfully Product Delete';
 		}else{
 			$output['iserr'] 			= 0;
 			$output['message'] 			= 'Invalid Entry';
@@ -70,9 +71,9 @@ class ProductDetails{
 		}
     function readProduct($productReadId){
         global $db;
-        $table_name = "products";
+        $table_name      = "products";
 		$productListAll  = array();
-		$count=$db->query("select * from $table_name where id='".$productReadId."' order by name asc");
+		$count           = $db->query("select * from $table_name where id='".$productReadId."' order by name asc");
 		while($productList=$db->getrec()){
 			$productListAll=$productList;
 		}
@@ -89,9 +90,9 @@ class ProductDetails{
 	}
 	function listProducts(){
         global $db;
-        $table_name = "products";
+        $table_name 	 = "products";
 		$productListAll  = array();
-		$count=$db->query("select * from $table_name where 1 order by name asc");
+		$count			 = $db->query("select * from $table_name where 1 order by name asc");
 		while($productList=$db->getrec()){
 			$productListAll[]=$productList;
 		}

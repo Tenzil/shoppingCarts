@@ -42,7 +42,7 @@ class CartDetails{
 		exit();
 	}
 		
-	function updateCart($name,$total,$totalDiscount,$totalWithDiscount,$totalTax,$totalWithTax,$grandTotal,$productId,$cartUpdateId,$userId){
+	function updateCart($name,$total,$totalDiscount,$totalWithDiscount,$totalTax,$totalWithTax,$grandTotal,$cartUpdateId){
         global $db;
         $table_name = "carts";
 		$cartField  = array(
@@ -72,10 +72,10 @@ class CartDetails{
 	function deleteCart($cartDeleteId){
 		global $db;
         $table_name = "carts";
-        $count      = $db->query("delete *  $table_name where id='".$cartDeleteId."' ");        
+        $count      = $db->query("delete from  $table_name where id='".$cartDeleteId."' ");        
 		if($count>0){
 			$output['iserr'] 			= 1;
-			$output['message'] 			= 'SuccessfullyCart Update';
+			$output['message'] 			= 'SuccessfullyCart Delete';
 		}else{
 			$output['iserr'] 			= 0;
 			$output['message'] 			= 'Invalid Entry';
@@ -87,9 +87,9 @@ class CartDetails{
         global $db;
         $table_name   = "carts";
 		$cartListAll  = array();
-		$count        = $db->query("select * from $table_name where id='".$cartReadId."' order by asc name");
+		$count        = $db->query("select * from $table_name where id='".$cartReadId."' order by  name asc");
 		while($cartList=$db->getrec()){
-			$cartListAll=$CartList;
+			$cartListAll=$cartList;
 		}
 		if($count>0){
 			$output['iserr'] 			= 1;
@@ -123,9 +123,10 @@ class CartDetails{
 	}
     function showCarts($cartUserId){
         global $db;
-        $table_name     = "carts";
+        $cartTable     	= "carts";
+		$productTable	= "products";
 		$cartListAll    = array();
-		$count          = $db->query("select cart.*,product.name from  $cartTable as cart,$productTable product where cart.user_id='".$cartUserId."' and cart.produce_id = product.id order by name asc");
+		$count          = $db->query("select cart.*,product.name from  $cartTable as cart,$productTable product where cart.user_id='".$cartUserId."' and cart.product_id = product.id order by cart.name asc");
 		while($cartList=$db->getrec()){
 			$cartListAll[]=$cartList;
 		}
@@ -143,9 +144,8 @@ class CartDetails{
     function getCartTotal($cartUserId){
         global $db;
         $cartTable      = "carts";
-        $productTable   = "products";
-		$cartListAll    = array();
-		$count          = $db->query("select id,user_id,total from  $cartTable as cart,$productTable product where cart.user_id='".$cartUserId."' and cart.produce_id = product.id order by name asc");
+        $cartListAll    = array();
+		$count          = $db->query("select id,user_id,total from  $cartTable  where user_id='".$cartUserId."' order by name asc");
 		while($cartList=$db->getrec()){
 			$cartListAll[]=$cartList;
 		}
