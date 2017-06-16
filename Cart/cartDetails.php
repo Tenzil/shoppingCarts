@@ -72,10 +72,10 @@ class CartDetails{
 	function deleteCart($cartDeleteId){
 		global $db;
         $table_name = "carts";
-        $count      = $db->query("delete *  $table_name where id='".$cartDeleteId."' ");        
+        $count      = $db->query("delete from  $table_name where id='".$cartDeleteId."' ");        
 		if($count>0){
 			$output['iserr'] 			= 1;
-			$output['message'] 			= 'SuccessfullyCart Update';
+			$output['message'] 			= 'SuccessfullyCart Delete';
 		}else{
 			$output['iserr'] 			= 0;
 			$output['message'] 			= 'Invalid Entry';
